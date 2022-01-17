@@ -12,14 +12,13 @@ Feature: Restore Moodle 2 course backups
       | Course 3 | C3 | 0 | topics | 2 | 0 |
       | Course 4 | C4 | 0 | topics | 20 | 0 |
     And the following "activities" exist:
-      | activity | course | idnumber | name | intro | section |
-      | assign | C3 | assign1 | Test assign name | Assign description | 1 |
-      | data | C3 | data1 | Test database name | Database description | 2 |
+      | activity | course | idnumber | name | intro | section | externalurl           |
+      | assign | C3 | assign1 | Test assign name | Assign description | 1 |           |
+      | data | C3 | data1 | Test database name | Database description | 2 |           |
+      | forum | C1 | 0001 | Test forum name    | Test forum description | 1 |         |
+      | url      | C1     | url1     | Test URL name | Test URL description | 3       | http://www.moodle.org |
     And I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
-    And I add a "Forum" to section "1" and I fill the form with:
-      | Forum name | Test forum name |
-      | Description | Test forum description |
     And I add the "Activities" block
 
   @javascript
@@ -62,10 +61,13 @@ Feature: Restore Moodle 2 course backups
   Scenario: Restore a backup into the same course removing it's contents before that
     When I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
+    And the following "activity" exists:
+      | activity | forum                              |
+      | course   | C1                                 |
+      | section  | 1                                  |
+      | name     | Test forum post backup name        |
+      | intro    | Test forum post backup description |
     And I am on "Course 1" course homepage
-    And I add a "Forum" to section "1" and I fill the form with:
-      | Forum name | Test forum post backup name |
-      | Description | Test forum post backup description |
     And I navigate to "Restore" in current page administration
     And I merge "test_backup.mbz" backup into the current course after deleting it's contents using this options:
       | Schema | Section 3 | 0 |
@@ -108,11 +110,7 @@ Feature: Restore Moodle 2 course backups
 
   @javascript
   Scenario: Restore a backup in an existing course retaining the backup course settings
-    Given I add a "URL" to section "3" and I fill the form with:
-      | Name | Test URL name |
-      | Description | Test URL description |
-      | id_externalurl | http://www.moodle.org |
-    And I hide section "3"
+    Given I hide section "3"
     And I hide section "7"
     When I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
@@ -134,11 +132,7 @@ Feature: Restore Moodle 2 course backups
 
   @javascript
   Scenario: Restore a backup in an existing course keeping the target course settings
-    Given I add a "URL" to section "3" and I fill the form with:
-      | Name | Test URL name |
-      | Description | Test URL description |
-      | id_externalurl | http://www.moodle.org |
-    And I hide section "3"
+    Given I hide section "3"
     And I hide section "7"
     When I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
@@ -160,11 +154,7 @@ Feature: Restore Moodle 2 course backups
 
   @javascript
   Scenario: Restore a backup in an existing course deleting contents and retaining the backup course settings
-    Given I add a "URL" to section "3" and I fill the form with:
-      | Name | Test URL name |
-      | Description | Test URL description |
-      | id_externalurl | http://www.moodle.org |
-    And I hide section "3"
+    Given I hide section "3"
     And I hide section "7"
     When I backup "Course 1" course using this options:
       | Initial |  Include enrolled users | 0 |
@@ -189,11 +179,7 @@ Feature: Restore Moodle 2 course backups
 
   @javascript
   Scenario: Restore a backup in an existing course deleting contents and keeping the current course settings
-    Given I add a "URL" to section "3" and I fill the form with:
-      | Name | Test URL name |
-      | Description | Test URL description |
-      | id_externalurl | http://www.moodle.org |
-    And I hide section "3"
+    Given I hide section "3"
     And I hide section "7"
     When I backup "Course 1" course using this options:
       | Initial |  Include enrolled users | 0 |
@@ -218,11 +204,7 @@ Feature: Restore Moodle 2 course backups
 
   @javascript
   Scenario: Restore a backup in an existing course deleting contents decreasing the number of sections
-    Given I add a "URL" to section "3" and I fill the form with:
-      | Name | Test URL name |
-      | Description | Test URL description |
-      | id_externalurl | http://www.moodle.org |
-    And I hide section "3"
+    Given I hide section "3"
     And I hide section "7"
     When I backup "Course 1" course using this options:
       | Initial |  Include enrolled users | 0 |

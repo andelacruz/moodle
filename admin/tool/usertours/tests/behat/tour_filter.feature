@@ -152,6 +152,14 @@ Feature: Apply tour filters to a tour
       | fullname | shortname | format | enablecompletion |
       | Course 1 | C1        | topics | 1                |
       | Course 2 | C2        | topics | 1                |
+    And the following "activity" exists:
+      | activity | forum                  |
+      | course   | C2                     |
+      | section  | 1                      |
+      | idnumber | 001                    |
+      | name     | Test forum name        |
+      | intro    | Test forum description |
+      | type     | general                |
     And I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
     And I add a "Wiki" to section "1" and I fill the form with:
@@ -160,10 +168,6 @@ Feature: Apply tour filters to a tour
       | First page name | First page            |
       | Wiki mode       | Collaborative wiki    |
     And I am on "Course 2" course homepage
-    And I add a "Forum" to section "1" and I fill the form with:
-      | Forum name  | Test forum name                |
-      | Forum type  | Standard forum for general use |
-      | Description | Test forum description         |
     And I add a new user tour with:
       | Name               | Wiki tour                |
       | Description        | A tour with both matches |
