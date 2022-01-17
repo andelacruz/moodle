@@ -18,16 +18,12 @@ Feature: Forum discussions can be split
       | teacher1 | C1 | editingteacher |
       | student1 | C1 | student |
       | student2 | C1 | student |
-    And I log in as "teacher1"
-    And I am on "Science 101" course homepage with editing mode on
-    And I add a "Forum" to section "1" and I fill the form with:
-      | Forum name | Study discussions |
-      | Forum type | Standard forum for general use |
-      | Description | Forum to discuss your coursework. |
-    And I add a new discussion to "Study discussions" forum with:
-      | Subject | Photosynthesis discussion |
-      | Message | Lets discuss our learning about Photosynthesis this week in this thread. |
-    And I log out
+    And the following "activities" exist:
+      | activity   | name                   | intro                              | course | idnumber | type    |
+      | forum      | Study discussions      | Forum to discuss your coursework.  | C1     | forump1  | general |
+    And the following "mod_forum > discussions" exist:
+      | forum   | course | user     | name                      | message                                                                  |
+      | forump1 | C1     | teacher1 | Photosynthesis discussion | Lets discuss our learning about Photosynthesis this week in this thread. |
     And I log in as "student1"
     And I am on "Science 101" course homepage
     And I reply "Photosynthesis discussion" post from "Study discussions" forum with:

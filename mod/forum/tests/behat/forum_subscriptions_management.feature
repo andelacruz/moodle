@@ -18,16 +18,17 @@ Feature: A teacher can control the subscription to a forum
       | teacher  | C1     | editingteacher |
       | student1 | C1     | student        |
       | student2 | C1     | student        |
-    And I log in as "teacher"
-    And I am on "Course 1" course homepage with editing mode on
-    And I add a "Forum" to section "1" and I fill the form with:
-      | Forum name        | Test forum name                |
-      | Forum type        | Standard forum for general use |
-      | Description       | Test forum description         |
-      | Subscription mode | Auto subscription              |
 
   Scenario: A teacher can change toggle subscription editing on and off
-    Given I follow "Test forum name"
+    Given the following "activity" exists:
+      | activity         | forum                  |
+      | course           | C1                     |
+      | idnumber         | f01                    |
+      | intro            | Test forum description |
+      | name             | Test forum name        |
+    When I log in as "teacher"
+    And I am on "Course 1" course homepage
+    And I follow "Test forum name"
     And I follow "Show/edit current subscribers"
     Then ".userselector" "css_element" should not exist
     And "Manage subscribers" "button" should exist

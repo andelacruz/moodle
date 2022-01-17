@@ -15,11 +15,13 @@ Feature: Toggle activities groups mode from the course page
     And the following "course enrolments" exist:
       | user | course | role |
       | teacher1 | C1 | editingteacher |
+    And the following "activity" exists:
+      | activity | forum                  |
+      | course   | C1                     |
+      | name     | Test forum name        |
+      | intro    | Test forum description |
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I add a "Forum" to section "1" and I fill the form with:
-      | Forum name | Test forum name |
-      | Description | Test forum description |
     And I navigate to "Edit settings" in current page administration
     And I set the following fields to these values:
       | Group mode | No groups |
