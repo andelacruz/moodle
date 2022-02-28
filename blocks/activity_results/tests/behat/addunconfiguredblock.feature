@@ -29,12 +29,13 @@ Feature: The activity results block doesn't displays student scores for unconfig
     Then I should see "Please configure this block and select which activity it should display results from." in the "Activity results" "block"
 
   Scenario: Try to configure the block on a resource page in a course without activities
-    Given I add a "Page" to section "1"
-    And I set the following fields to these values:
-      | Name | Test page name |
-      | Description | Test page description |
-      | page | This is a page |
-    And I press "Save and display"
+    Given the following "activity" exists:
+      | activity | page                  |
+      | course   | C1                    |
+      | section  | 1                     |
+      | name     | Test page name        |
+      | intro    | Test page description |
+      | content  | This is a page        |
     When I add the "Activity results" block
     And I configure the "Activity results" block
     And I should see "There are not yet any activities in this course."

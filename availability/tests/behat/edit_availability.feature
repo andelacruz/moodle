@@ -29,11 +29,14 @@ Feature: edit_availability
       | student1 | C1     | student        |
 
   Scenario: Confirm the 'enable availability' option is working
-    Given the following config values are set as admin:
+    Given the following "activities" exist:
+      | activity | course | section | name | content |
+      | page     | C1     | 1       | P1   | x       |
+    And the following config values are set as admin:
       | enableavailability | 0 |
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I add a "Page" to section "1"
+    And I am on the "P1" "page activity editing" page
     Then "Restrict access" "fieldset" should not exist
 
     Given I am on "Course 1" course homepage
@@ -44,7 +47,7 @@ Feature: edit_availability
       | enableavailability | 1 |
 
     And I am on "Course 1" course homepage
-    And I add a "Page" to section "1"
+    And I am on the "P1" "page activity editing" page
     Then "Restrict access" "fieldset" should exist
 
     Given I am on "Course 1" course homepage
@@ -54,9 +57,14 @@ Feature: edit_availability
   @javascript
   Scenario: Edit availability using settings in activity form
     # Set up.
-    Given I log in as "teacher1"
+    Given the following "activity" exists:
+      | activity | page |
+      | course   | C1   |
+      | section  | 1    |
+      | name     | P1   |
+    And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I add a "Page" to section "1"
+    And I am on the "P1" "page activity editing" page
     And I expand all fieldsets
     Then I should see "None" in the "Restrict access" "fieldset"
 

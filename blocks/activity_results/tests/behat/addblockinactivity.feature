@@ -24,6 +24,12 @@ Feature: The activity results block displays student scores
       | student3 | C1 | student |
       | student4 | C1 | student |
       | student5 | C1 | student |
+    And the following "activity" exists:
+      | activity | page                  |
+      | course   | C1                    |
+      | name     | Test page name        |
+      | intro    | Test page description |
+      | content  | This is a page        |
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     And I add a "Assignment" to section "1" and I fill the form with:
@@ -40,13 +46,6 @@ Feature: The activity results block displays student scores
       | Assignment name | Test assignment 3 |
       | Description | Offline text |
       | assignsubmission_file_enabled | 0 |
-    And I am on "Course 1" course homepage
-    And I add a "Page" to section "1"
-    And I set the following fields to these values:
-      | Name | Test page name |
-      | Description | Test page description |
-      | Page content | This is a page |
-    And I press "Save and return to course"
     And I am on "Course 1" course homepage
     And I should see "Test page name"
     And I navigate to "View > Grader report" in the course gradebook
