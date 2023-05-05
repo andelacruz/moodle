@@ -9,11 +9,13 @@ Feature: Display and choose from the available activities in course
       | username | firstname | lastname | email |
       | teacher | Teacher | 1 | teacher@example.com |
     And the following "courses" exist:
-      | fullname | shortname | format |
-      | Course | C | topics |
+      | fullname | shortname | format | startdate |
+      | Course   | C         | topics |           |
+      | Course 2 | C2        | weeks  | 95713920  |
     And the following "course enrolments" exist:
-      | user | course | role |
-      | teacher | C | editingteacher |
+      | user    | course | role           |
+      | teacher | C      | editingteacher |
+      | teacher | C2     | editingteacher |
     And the following config values are set as admin:
       | enablemoodlenet | 0 | tool_moodlenet |
     And I log in as "teacher"
@@ -31,7 +33,12 @@ Feature: Display and choose from the available activities in course
     And I set the following fields to these values:
       | Assignment name | Test Assignment Topic 4 |
     And I press "Save and return to course"
-    Then I should see "Test Assignment Topic 4" in the "Topic 4" "section"
+    And I should see "Test Assignment Topic 4" in the "Topic 4" "section"
+    # Confirm activity can be added via activity chooser when in weekly format course
+    And I am on "C2" course homepage with editing mode on
+    And I click on "Add an activity or resource" "button" in the "13 January - 19 January" "section"
+    And I click on "Add a new Assignment" "link" in the "Add an activity or resource" "dialogue"
+    And I should see "Adding a new Assignment"
 
   Scenario: The teacher can choose to add an activity from the activity summary in the activity chooser
     Given I click on "Add an activity or resource" "button" in the "Topic 1" "section"
@@ -44,6 +51,12 @@ Feature: Display and choose from the available activities in course
     When I click on "Information about the Assignment activity" "button" in the "Add an activity or resource" "dialogue"
     Then I should see "Assignment" in the "help" "core_course > Activity chooser screen"
     And I should see "The assignment activity module enables a teacher to communicate tasks, collect work and provide grades and feedback."
+    # Confirm show summary also works for weekly format course
+    And I am on "C2" course homepage with editing mode on
+    And I click on "Add an activity or resource" "button" in the "13 January - 19 January" "section"
+    And I click on "Information about the Assignment activity" "button" in the "Add an activity or resource" "dialogue"
+    And I should see "Assignment" in the "help" "core_course > Activity chooser screen"
+    And I should see "The assignment activity module enables a teacher to communicate tasks, collect work and provide grades and feedback."
 
   Scenario: Hide summary
     Given I click on "Add an activity or resource" "button" in the "Topic 1" "section"
@@ -52,6 +65,15 @@ Feature: Display and choose from the available activities in course
     And I should see "Back" in the "help" "core_course > Activity chooser screen"
     When I click on "Back" "button" in the "help" "core_course > Activity chooser screen"
     Then "modules" "core_course > Activity chooser screen" should be visible
+    And "help" "core_course > Activity chooser screen" should not be visible
+    And "Back" "button" should not exist in the "modules" "core_course > Activity chooser screen"
+    And I should not see "The assignment activity module enables a teacher to communicate tasks, collect work and provide grades and feedback." in the "Add an activity or resource" "dialogue"
+    # Confirm hide summary also works for weekly format course
+    And I am on "C2" course homepage with editing mode on
+    And I click on "Add an activity or resource" "button" in the "13 January - 19 January" "section"
+    And I click on "Information about the Assignment activity" "button" in the "Add an activity or resource" "dialogue"
+    And I click on "Back" "button" in the "help" "core_course > Activity chooser screen"
+    And "modules" "core_course > Activity chooser screen" should be visible
     And "help" "core_course > Activity chooser screen" should not be visible
     And "Back" "button" should not exist in the "modules" "core_course > Activity chooser screen"
     And I should not see "The assignment activity module enables a teacher to communicate tasks, collect work and provide grades and feedback." in the "Add an activity or resource" "dialogue"
@@ -189,3 +211,73 @@ Feature: Display and choose from the available activities in course
     Then I should not see "All" in the "Add an activity or resource" "dialogue"
     And I should see "Activities" in the "Add an activity or resource" "dialogue"
     And I should see "Resources" in the "Add an activity or resource" "dialogue"
+
+  Scenario: Teacher can navigate through activity chooser in Topics format course
+    When I click on "Add an activity or resource" "button" in the "Topic 1" "section"
+    Then I should see "Add an activity or resource" in the ".modal-title" "css_element"
+    And "[data-region='chooser-container']" "css_element" should be visible
+    And I press the tab key
+    And I press the tab key
+    And I press the tab key
+    And I press the tab key
+    # Confirm right key works
+    And I press the right key
+    And I press the right key
+    And "a[tabindex='0'][title='Add a new Chat']" "css_element" should be visible
+    # Confirm left key works
+    And I press the left key
+    And "a[tabindex='0'][title='Add a new Book']" "css_element" should be visible
+    # Confirm clicking "x" button closes modal
+    And I click on "//button[@data-action='hide']" "xpath_element"
+    And ".modal-title" "css_element" should not be visible
+    And I click on "Add an activity or resource" "button" in the "Topic 1" "section"
+    # Confirm escape key closes the modal
+    And I press the escape key
+    And ".modal-title" "css_element" should not be visible
+
+  Scenario: Teacher can navigate through activity chooser in Weekly format course
+    Given I am on "C2" course homepage with editing mode on
+    When I click on "Add an activity or resource" "button" in the "13 January - 19 January" "section"
+    Then I should see "Add an activity or resource" in the ".modal-title" "css_element"
+    And "[data-region='chooser-container']" "css_element" should be visible
+    And I press the tab key
+    And I press the tab key
+    And I press the tab key
+    And I press the tab key
+    # Confirm right key works
+    And I press the right key
+    And I press the right key
+    And "a[tabindex='0'][title='Add a new Chat']" "css_element" should be visible
+    # Confirm left key works
+    And I press the left key
+    And "a[tabindex='0'][title='Add a new Book']" "css_element" should be visible
+    # Confirm clicking "x" button closes modal
+    And I click on "//button[@data-action='hide']" "xpath_element"
+    And ".modal-title" "css_element" should not be visible
+    And I click on "Add an activity or resource" "button" in the "13 January - 19 January" "section"
+    # Confirm escape key closes the modal
+    And I press the escape key
+    And ".modal-title" "css_element" should not be visible
+
+  Scenario: Teacher can access 'More help' from activity information in activity chooser
+    Given I click on "Add an activity or resource" "button" in the "Topic 1" "section"
+    When I click on "Information about the Assignment activity" "button" in the "Add an activity or resource" "dialogue"
+    # Confirm more help link exists
+    Then I should see "More help"
+    And ".helpdoclink" "css_element" should exist
+    # Confirm that corresponding help icon exist
+    And ".iconhelp" "css_element" should exist
+    # Confirm that link opens in new window
+    And "i[title='Opens in new window']" "css_element" should be visible
+    # Confirm the same behaviour for weekly format course
+    And I am on "C2" course homepage with editing mode on
+    And I click on "Add an activity or resource" "button" in the "13 January - 19 January" "section"
+    And I should see "Add an activity or resource" in the ".modal-title" "css_element"
+    And I click on "Information about the Assignment activity" "button" in the "Add an activity or resource" "dialogue"
+    # Confirm more help link exists
+    And I should see "More help"
+    And ".helpdoclink" "css_element" should exist
+    # Confirm that corresponding help icon exist
+    And ".iconhelp" "css_element" should exist
+    # Confirm that link opens in new window
+    And "i[title='Opens in new window']" "css_element" should be visible
