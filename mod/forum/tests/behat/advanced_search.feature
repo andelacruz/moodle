@@ -78,12 +78,9 @@ Feature: The forum search allows users to perform advanced searches for forum po
     And I should see "Your subjective"
 
   Scenario: Perform an advanced search matching the author
-    Given I log in as "teacher2"
-    And I am on "Course 1" course homepage
-    And I add a new topic to "Announcements" forum with:
-      | Subject | My Subjects |
-      | Message | My message |
-    And I log out
+    Given the following "mod_forum > discussions" exist:
+      | user     | forum              | subject     | message    |
+      | teacher2 | C1 > Announcements | My Subjects | My message |
     When I am on the "Announcements" "forum activity" page logged in as student1
     And I press "Search"
     And I should see "Please enter search terms into one or more of the following fields"

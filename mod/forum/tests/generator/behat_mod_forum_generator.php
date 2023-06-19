@@ -55,6 +55,17 @@ class behat_mod_forum_generator extends behat_generator_base {
     protected function get_forum_id(string $idnumber): int {
         global $DB;
 
+        if (str_contains($idnumber, '>')) {
+            [$course, $name] = array_map('trim', explode('>', $idnumber));
+            $courseid = $this->get_course_id($course);
+
+            if (!$id = $DB->get_field('forum', 'id', ['name' => $name, 'course' => $courseid])) {
+                throw new Exception('The specified forum with name "' . $name . '" could not be found on course "' . $course .'"');
+            }
+
+            return $id;
+        }
+
         if (!$id = $DB->get_field('course_modules', 'instance', ['idnumber' => $idnumber])) {
             throw new Exception('The specified activity with idnumber "' . $idnumber . '" could not be found.');
         }
