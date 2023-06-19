@@ -28,13 +28,11 @@ Feature: The forum search allows users to perform advanced searches for forum po
     And I expand all fieldsets
     And I set the field "id_newsitems" to "1"
     And I press "Save and display"
-    And I add a new topic to "Announcements" forum with:
-      | Subject | My subject |
-      | Message | My message |
-    And I am on "Course 1" course homepage
-    And I add a new topic to "Announcements" forum with:
-      | Subject | Your subjective|
-      | Message | Your long message |
+    And the following "mod_forum > discussions" exist:
+      | user     | forum              | name            | subject         | message           |
+      | teacher1 | C1 > Announcements | My subject      | My subject      | My message        |
+      | teacher1 | C1 > Announcements | Your subjective | Your subjective | Your long message |
+      | teacher2 | C1 > Announcements | My Subjects     | My Subjects     | My message        |
     And I log out
 
   Scenario: Perform an advanced search using any term
@@ -78,9 +76,6 @@ Feature: The forum search allows users to perform advanced searches for forum po
     And I should see "Your subjective"
 
   Scenario: Perform an advanced search matching the author
-    Given the following "mod_forum > discussions" exist:
-      | user     | forum              | subject     | message    |
-      | teacher2 | C1 > Announcements | My Subjects | My message |
     When I am on the "Announcements" "forum activity" page logged in as student1
     And I press "Search"
     And I should see "Please enter search terms into one or more of the following fields"
@@ -118,8 +113,7 @@ Feature: The forum search allows users to perform advanced searches for forum po
   @javascript
   Scenario: Perform an advanced search on starred discussions without text
     Given I am on the "Announcements" "forum activity" page logged in as student1
-    And I click on "Your subjective" action menu
-    And I follow "Star this discussion"
+    And I click on "a[title='Star this discussion']" "css_element" in the "Your subjective" "table_row"
     And I press "Search"
     And I should see "Please enter search terms into one or more of the following fields"
     And I set the field "starredonly" to "1"
@@ -130,8 +124,7 @@ Feature: The forum search allows users to perform advanced searches for forum po
   @javascript
   Scenario: Perform an advanced search on starred discussions with text
     Given I am on the "Announcements" "forum activity" page logged in as student1
-    And I click on "Your subjective" action menu
-    And I follow "Star this discussion"
+    And I click on "a[title='Star this discussion']" "css_element" in the "Your subjective" "table_row"
     And I press "Search"
     And I should see "Please enter search terms into one or more of the following fields"
     And I set the field "words" to "message"

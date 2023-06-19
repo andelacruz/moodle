@@ -30,6 +30,12 @@ Feature: Protected data should not be deleted
       | Site purpose | PT1H            | 0          |
       | prot         | P1D             | 1          |
       | unprot       | P1D             | 0          |
+    And the following "mod_forum > discussions" exist:
+      | user     | forum   | name                | message              |
+      | u1       | forump1 | Discussion subject  | Test post in forump1 |
+      | u1       | forumu1 | Discussion subject  | Test post in forumu1 |
+      | u1       | forump2 | Discussion subject  | Test post in forump2 |
+      | u1       | forumu2 | Discussion subject  | Test post in forumu2 |
     And I set the category and purpose for the "forump1" "forum" in course "C1" to "CAT" and "prot"
     And I set the category and purpose for the "forump2" "forum" in course "C2" to "CAT" and "prot"
     And I set the category and purpose for the "forumu1" "forum" in course "C1" to "CAT" and "unprot"
@@ -38,25 +44,7 @@ Feature: Protected data should not be deleted
 
   @javascripta
   Scenario: Unexpired and protected data is not removed
-    Given I log in as "u1"
-    And I am on "C1" course homepage
-    And I add a new discussion to "forump1" forum with:
-      | Subject | Discussion subject |
-      | Message | Test post in forump1 |
-    And I am on "C1" course homepage
-    And I add a new discussion to "forumu1" forum with:
-      | Subject | Discussion subject |
-      | Message | Test post in forumu1 |
-    And I am on "C2" course homepage
-    And I add a new discussion to "forump2" forum with:
-      | Subject | Discussion subject |
-      | Message | Test post in forump2 |
-    And I am on "C2" course homepage
-    And I add a new discussion to "forumu2" forum with:
-      | Subject | Discussion subject |
-      | Message | Test post in forumu2 |
-    And I log out
-    And I log in as "admin"
+    Given  I log in as "admin"
     And I create a dataprivacy "delete" request for "u1"
     And I approve a dataprivacy "delete" request for "u1"
     And I run all adhoc tasks

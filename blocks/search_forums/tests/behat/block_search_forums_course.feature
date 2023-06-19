@@ -24,6 +24,9 @@ Feature: The search forums block allows users to search for forum posts on cours
     And I turn editing mode on
     And I add the "Latest announcements" block
     And I add the "Search forums" block
+    And the following "mod_forum > discussions" exist:
+      | user     | forum              | name            | message           |
+      | teacher1 | C1 > Announcements | My subject      | My message        |
     And I log out
 
   Scenario: Use the search forum block in a course without any forum posts
@@ -36,10 +39,6 @@ Feature: The search forums block allows users to search for forum posts on cours
   Scenario: Use the search forum block in a course with a hidden forum and search for posts
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I add a new topic to "Announcements" forum with:
-      | Subject | My subject |
-      | Message | My message |
-    And I am on "Course 1" course homepage with editing mode on
     And I follow "Announcements"
     And I navigate to "Settings" in current page administration
     And I expand all fieldsets
@@ -54,12 +53,6 @@ Feature: The search forums block allows users to search for forum posts on cours
     Then I should see "No posts"
 
   Scenario: Use the search forum block in a course and search for posts
-    Given I log in as "teacher1"
-    And I am on "Course 1" course homepage
-    And I add a new topic to "Announcements" forum with:
-      | Subject | My subject |
-      | Message | My message |
-    And I log out
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And "Search forums" "block" should exist
