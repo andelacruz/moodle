@@ -51,22 +51,18 @@ Feature: Protected data should not be deleted
     And I navigate to "Users > Privacy and policies > Data requests" in site administration
     And I should see "Deleted" in the "u1" "table_row"
 
-    And I am on "C1" course homepage
-    And I follow "forump1"
+    And I am on the "forump1" "forum activity" page
     And I follow "Discussion subject"
     Then I should not see "Test post in forump1"
 
-    When I am on "C1" course homepage
-    And I follow "forumu1"
+    When I am on the "forumu1" "forum activity" page
     And I follow "Discussion subject"
     Then I should not see "Test post in forumu1"
 
-    And I am on "C2" course homepage
-    And I follow "forump2"
+    And I am on the "forump2" "forum activity" page
     And I follow "Discussion subject"
     Then I should see "Test post in forump2"
 
-    When I am on "C2" course homepage
-    And I follow "forumu2"
+    When I am on the "forumu2" "forum activity" page
     And I follow "Discussion subject"
     Then I should not see "Test post in forumu2"

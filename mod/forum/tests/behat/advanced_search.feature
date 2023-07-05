@@ -33,7 +33,6 @@ Feature: The forum search allows users to perform advanced searches for forum po
       | teacher1 | C1 > Announcements | My subject      | My subject      | My message        |
       | teacher1 | C1 > Announcements | Your subjective | Your subjective | Your long message |
       | teacher2 | C1 > Announcements | My Subjects     | My Subjects     | My message        |
-    And I log out
 
   Scenario: Perform an advanced search using any term
     Given I am on the "Announcements" "forum activity" page logged in as student1

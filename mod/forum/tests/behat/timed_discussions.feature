@@ -22,11 +22,9 @@ Feature: Users can choose to set start and end time for display of their discuss
       | admin    | forump1 | Discussion 1                   | Discussion contents 1, first message |                      |           |
       | admin    | forump1 | Discussion 2 timed not visible | Discussion contents 2, first message | ##1 Jan 2014 08:00## |           |
       | admin    | forump1 | Discussion 3 timed visible now | Discussion contents 3, first message |                      | 1         |
-    And I log in as "admin"
     And the following config values are set as admin:
       | forum_enabletimedposts | 1 |
-    And I am on "Course 1" course homepage
-    And I am on the "Test forum name" "forum activity" page
+    And I am on the "Test forum name" "forum activity" page logged in as admin
     And I should see "Discussion 2 timed"
     And I should see "Discussion 3 timed"
     And "[data-region=timed-label]" "css_element" should exist

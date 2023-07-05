@@ -52,7 +52,7 @@ Feature: New discussions and discussions with recently added replies are display
     #
     And I am on the "Course general forum" "forum activity" page logged in as teacher1
     And I follow "Forum post 1"
-    And I reply "Forum post 1" post from "Course general forum" forum with:
+    When I reply "Forum post 1" post from "Course general forum" forum with:
       | Message | Reply to the first post |
     And I am on the "Course general forum" "forum activity" page
     #

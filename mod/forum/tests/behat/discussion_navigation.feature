@@ -94,7 +94,7 @@ Feature: A user can navigate to previous and next discussions
     And I follow "Test forum name"
     And I select "Group 1" from the "Visible groups" singleselect
     And I follow "Discussion 1 Group 1"
-    Then I should see "Discussion 2 Group 0"
+    And I should see "Discussion 2 Group 0"
     And I should see "Discussion 2 Group 1"
     And I follow "Discussion 2 Group 1"
     And I should see "Discussion 1 Group 1"
