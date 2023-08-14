@@ -131,3 +131,24 @@ Feature: Users can add entries to database activities
       | user     |
       | teacher1 |
       | student1 |
+
+  @javascript @_file_upload
+  Scenario: Users can only add entry to picture field with valid file
+    Given the following "mod_data > fields" exist:
+      | database | type    | name         |
+      | data1    | picture | Test field 1 |
+    And I am on the "Test database name" "data activity" page logged in as student1
+    And I press "Add entry"
+    And I follow "Add..."
+    And I follow "Upload a file"
+    # Confrim .exe files cannot be uploaded
+    When I upload "mod/data/tests/fixtures/sample.exe" file to "Files" filemanager
+    Then I should see "File filetype cannot be accepted."
+    # Confirm .xlsx files cannot be uploaded
+    And I upload "mod/data/tests/fixtures/sample.xlsx" file to "Files" filemanager
+    And I should see "File filetype cannot be accepted."
+    # Confirm .txt files cannot be uploaded
+    And I upload "lib/tests/fixtures/empty.txt" file to "Files" filemanager
+    And I should see "File filetype cannot be accepted."
+    # Confirm image files can be uploaded
+    And I upload "lib/tests/fixtures/gd-logo.png" file to "Files" filemanager

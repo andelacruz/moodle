@@ -1,0 +1,6 @@
+@echo
+cls
+echo this is a test cmd to open browser
+pause
+Start Chrome.exe
+Stop
