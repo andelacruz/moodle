@@ -174,12 +174,17 @@ class behat_calendar extends behat_base {
     /**
      * Navigate to site calendar.
      *
-     * @Given /^I am viewing site calendar$/
+     * @Given /^I am viewing site calendar in "([^"]+)" view$/
+     * @param string $view The calendar view ('month', 'day' and 'upcoming') to navigate to.
      * @throws coding_exception
      * @return void
      */
-    public function i_am_viewing_site_calendar() {
-        $url = new moodle_url('/calendar/view.php', ['view' => 'month']);
+    public function i_am_viewing_site_calendar(string $view) {
+
+        if (!in_array($view, ['month', 'day', 'upcoming'])) {
+            throw new Exception("Invalid calendar view. Allowed values are: 'month', 'day' and 'upcoming'");
+        }
+        $url = new moodle_url('/calendar/view.php', ['view' => $view]);
         $this->execute('behat_general::i_visit', [$url]);
     }
 }
