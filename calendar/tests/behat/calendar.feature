@@ -192,7 +192,7 @@ Feature: Perform basic calendar functionality
   @javascript
   Scenario: Default event type selection in the event form
     Given I log in as "teacher1"
-    When I am viewing site calendar
+    When I am viewing site calendar in "month" view
     And I click on "New event" "button"
     Then the field "Type of event" matches value "User"
     And I click on "Close" "button" in the "New event" "dialogue"
@@ -203,7 +203,7 @@ Feature: Perform basic calendar functionality
   @javascript
   Scenario: Admin can only see all courses if calendar_adminseesall setting is enabled.
     Given I am on the "Course 1" course page logged in as admin
-    And I am viewing site calendar
+    And I am viewing site calendar in "month" view
     And I click on "New event" "button"
     And I set the field "Type of event" to "Course"
     When I expand the "Course" autocomplete
@@ -215,7 +215,7 @@ Feature: Perform basic calendar functionality
     And I navigate to "Appearance > Calendar" in site administration
     And I set the field "Admins see all" to "1"
     And I press "Save changes"
-    And I am viewing site calendar
+    And I am viewing site calendar in "month" view
     And I click on "New event" "button"
     And I set the field "Type of event" to "Course"
     When I expand the "Course" autocomplete
@@ -226,7 +226,7 @@ Feature: Perform basic calendar functionality
   @javascript
   Scenario: Students can not see event type field by default.
     Given I log in as "student1"
-    And I am viewing site calendar
+    And I am viewing site calendar in "month" view
     When I click on "New event" "button"
     # Only "user" event type is available, so "Type of event" field should not be displayed.
     Then "Type of event" "select" should not exist
@@ -237,7 +237,7 @@ Feature: Perform basic calendar functionality
       | capability                    | permission | role    | contextlevel | reference |
       | moodle/calendar:manageentries | Allow      | student | System       |           |
     And I log in as "student2"
-    And I am viewing site calendar
+    And I am viewing site calendar in "month" view
     When I click on "New event" "button"
     # Only "user" event type is available, so "Type of event" field should not be displayed.
     Then "Type of event" "select" should not exist
@@ -248,7 +248,7 @@ Feature: Perform basic calendar functionality
       | capability                    | permission | role    | contextlevel | reference |
       | moodle/calendar:manageentries | Allow      | student | System       |           |
     And I log in as "student1"
-    And I am viewing site calendar
+    And I am viewing site calendar in "month" view
     When I click on "New event" "button"
     # Student 1 is enrolled in a course and have the capability assigned.
     # Then, the "Type of event" select box should be visible.
@@ -267,7 +267,7 @@ Feature: Perform basic calendar functionality
   @javascript
   Scenario: The calendar page should be responsive
     Given I log in as "admin"
-    And I am viewing site calendar
+    And I am viewing site calendar in "month" view
     And I create a calendar event:
       | Type of event  | site      |
       | Event title    | Event 1:1 |
