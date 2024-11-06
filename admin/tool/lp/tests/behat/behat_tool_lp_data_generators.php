@@ -102,8 +102,11 @@ class behat_tool_lp_data_generators extends behat_base {
      * @throws PendingException
      * @param string    $elementname The name of the entity to add
      * @param TableNode $data
+     * @deprecated since 5.0 - This method of creating data generators have been deprecated.
+     *                         Please use the following "core_competency > entity" exist" or similar. (MDL-82866)
      */
     public function the_following_lp_exist($elementname, TableNode $data) {
+        $this->deprecated_message('behat_tool::the_following_lp_exist');
 
         // Now that we need them require the data generators.
         require_once(__DIR__.'/../../../../../lib/phpunit/classes/util.php');
