@@ -74,17 +74,17 @@ Feature: Manage competency frameworks
       | shortname | idnumber |
       | Science Year-5 | sc-y-5 |
     And the following "core_competency > competencies" exist:
-      | shortname | competencyframework |
-      | Comp1     | sc-y-5              |
-      | Comp2     | sc-y-5              |
+      | shortname | competencyframework | idnumber |
+      | Comp1     | sc-y-5              | Comp1    |
+      | Comp2     | sc-y-5              | Comp2    |
     And the following "core_competency > plans" exist:
       | name | user | description |
       | Plan Science-5 | admin | Plan description |
-    And the following lp "plancompetencies" exist:
+    And the following "core_competency > plan_competency" exist:
       | plan | competency |
       | Plan Science-5 | Comp1 |
       | Plan Science-5 | Comp2 |
-    And the following lp "usercompetencies" exist:
+    And the following "core_competency > user_competency" exist:
       | user | competency |
       | admin | Comp1 |
       | admin | Comp2 |
