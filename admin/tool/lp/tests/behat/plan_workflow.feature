@@ -35,15 +35,15 @@ Feature: Manage plan workflow
       | shortname | idnumber |
       | Test-Framework | ID-FW1 |
     And the following "core_competency > competencies" exist:
-      | shortname  | competencyframework |
-      | Test-Comp1 | ID-FW1              |
-      | Test-Comp2 | ID-FW1              |
+      | shortname  | competencyframework | idnumber   |
+      | Test-Comp1 | ID-FW1              | Test-Comp1 |
+      | Test-Comp2 | ID-FW1              | Test-Comp2 |
     And the following "core_competency > plans" exist:
       | name | user | description |
       | Test-Plan1 | user1 | Description of plan for user 1 |
       | Test-Plan2 | user2 | Description of plan for user 2 |
-    And the following lp "plancompetencies" exist:
-      | plan | competency |
+    And the following "core_competency > plan_competency" exist:
+      | plan       | competency |
       | Test-Plan1 | Test-Comp1 |
       | Test-Plan1 | Test-Comp2 |
       | Test-Plan2 | Test-Comp1 |

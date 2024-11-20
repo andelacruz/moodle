@@ -110,11 +110,11 @@ Feature: Manage competency frameworks
     And the following "core_competency > plans" exist:
       | name | user | description |
       | Plan Science-6 | admin | Plan description |
-    And the following lp "plancompetencies" exist:
+    And the following "core_competency > plan_competency" exist:
       | plan | competency |
       | Plan Science-6 | Comp1 |
       | Plan Science-6 | Comp2 |
-    And the following lp "usercompetencyplans" exist:
+    And the following "core_competency > user_competency_plans" exist:
       | user | competency | plan |
       | admin | Comp1 | Plan Science-6 |
       | admin | Comp2 | Plan Science-6 |

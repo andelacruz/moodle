@@ -22,8 +22,8 @@ Feature: Manage plearning plan
     And I should see "Science plan"
 
   Scenario: Create a learning plan based on template
-    Given the following lp "templates" exist:
-      | shortname | description |
+    Given the following "core_competency > templates" exist:
+      | shortname        | description                  |
       | Science template | science template description |
     And I am on homepage
     And I navigate to "Competencies > Learning plan templates" in site administration
@@ -36,8 +36,8 @@ Feature: Manage plearning plan
     And I should see "Admin User" in the "Science template" "table_row"
 
   Scenario: Create a learning plan from template cohort
-    Given the following lp "templates" exist:
-      | shortname | description |
+    Given the following "core_competency > templates" exist:
+      | shortname               | description                  |
       | Science template cohort | science template description |
     And the following "users" exist:
       | username | firstname | lastname | email |

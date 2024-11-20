@@ -89,6 +89,24 @@ class behat_core_competency_generator extends behat_generator_base {
                 'required' => ['plan', 'competency', 'user'],
                 'switchids' => ['plan' => 'planid', 'competency' => 'competencyid', 'user' => 'userid'],
             ],
+            'user_evidence' => [
+                'singular' => 'user_evidence',
+                'datagenerator' => 'user_evidence',
+                'required' => ['user', 'name'],
+                'switchids' => ['user' => 'userid'],
+            ],
+            'user_evidence_competency' => [
+                'singular' => 'user_evidence_competency',
+                'datagenerator' => 'user_evidence_competency',
+                'required' => ['userevidence', 'competency'],
+                'switchids' => ['userevidence' => 'userevidenceid', 'competency' => 'competencyid'],
+            ],
+            'templates' => [
+                'singular' => 'template',
+                'datagenerator' => 'template',
+                'required' => ['shortname'],
+                'switchids' => ['context' => 'contextid'],
+            ],
         ];
     }
 
@@ -264,4 +282,53 @@ class behat_core_competency_generator extends behat_generator_base {
     protected function get_data_generator(): core_competency_generator {
         return $this->componentdatagenerator;
     }
+
+    /**
+     * Get the user evidence id using a name.
+     *
+     * @param string $name
+     * @return int The user evidence id
+     */
+    protected function get_userevidence_id(string $name): int {
+        global $DB;
+
+        if (!$id = $DB->get_field('competency_userevidence', 'id', ['name' => $name])) {
+            throw new Exception('The specified user evidence with name "' . $name . '" could not be found.');
+        }
+
+        return $id;
+    }
+
+    /**
+     * Get the context id using context id.
+     *
+     * @param string $name
+     * @return int The template competency id
+     */
+    protected function get_templatecompetency_id(string $name): int {
+        global $DB;
+
+        if (!$id = $DB->get_field('competency_template', 'id', ['name' => $name])) {
+            throw new Exception('The specified template competency with name "' . $name . '" could not be found.');
+        }
+
+        return $id;
+    }
+
+    /**
+     * Get the context id using a contextid.
+     *
+     * @param string $contextid
+     * @return int The context id
+     */
+    protected function get_context_id(string $contextid): int {
+        global $DB;
+
+        if (!$id = $DB->get_field('context', 'id', ['id' => $contextid])) {
+            throw new Exception('The specified context with id "' . $contextid . '" could not be found.');
+        }
+
+        return $id;
+    }
+
 }
