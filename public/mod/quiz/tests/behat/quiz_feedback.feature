@@ -83,3 +83,31 @@ Feature: Enable deferred or immediate feedback for quiz
     And the "True" "field" should be disabled
     And the "False" "field" should be disabled
     And "Check Question 1" "button" should not exist
+
+  @javascript
+  Scenario: A teacher can set whether responses, answers and feedback are displayed after attempting a quiz
+    Given the following "activity" exists:
+      | activity                    | quiz   |
+      | name                        | Quiz 1 |
+      | course                      | C1     |
+      | idnumber                    | quiz1  |
+      | timeclosed                  | ## tomorrow ## |
+      | preferredbehaviour          | deferredfeedback |
+      | attemptimmediately          | 1      |
+      | generalfeedbackimmediately  | 1      |
+    And the following "question categories" exist:
+      | contextlevel    | reference | name           |
+      | Activity module | quiz1     | Test questions |
+    And the following "questions" exist:
+      | questioncategory | qtype       | name  | questiontext    |
+      | Test questions   | truefalse   | TF1   | First question  |
+      | Test questions   | truefalse   | TF2   | Second question |
+      | Test questions   | truefalse   | TF3   | Third question  |
+#    And quiz "Quiz 1" contains the following questions:
+#      | question | page |
+#      | TF1      | 1    |
+#      | TF2      | 2    |
+#      | TF3      | 3    |
+
+    And I am on the "Quiz 1" "quiz activity" page logged in as admin
+    And I pause
