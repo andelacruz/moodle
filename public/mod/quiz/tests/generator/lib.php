@@ -152,7 +152,7 @@ class mod_quiz_generator extends testing_module_generator {
      *      This should only be used with behaviours that have a check button.
      * @param bool $finishattempt if true, the attempt will be submitted.
      */
-    public function submit_responses($attemptid, array $responses, $checkbutton, $finishattempt, $timefinished = null) {
+    public function submit_responses($attemptid, array $responses, $checkbutton, $finishattempt, $timefinish = null) {
         $questiongenerator = $this->datagenerator->get_plugin_generator('core_question');
 
         $attemptobj = quiz_attempt::create($attemptid);
@@ -181,7 +181,7 @@ class mod_quiz_generator extends testing_module_generator {
         }
 
         if ($finishattempt) {
-            $timefinished = $timefinished ?? time();
+            $timefinished = $timefinish ?? time();
             $attemptobj->process_submit($timefinished, false);
             $attemptobj->process_grade_submission(time());
         }

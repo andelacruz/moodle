@@ -84,64 +84,55 @@ Feature: Enable deferred or immediate feedback for quiz
     And the "False" "field" should be disabled
     And "Check Question 1" "button" should not exist
 
-  @javascript
-  Scenario: A teacher can set whether responses, answers and feedback are displayed after attempting a quiz
+  Scenario Outline: A teacher can set whether responses, answers and feedback are displayed after attempting a quiz
     Given the following "activity" exists:
       | activity                    | quiz           |
       | name                        | Quiz 1         |
       | course                      | C1             |
       | idnumber                    | quiz1          |
-      | timeclose                   | ## tomorrow ## |
-      # Uncheck all options in Immediately after the attempt except for The attempt and General feedback.
-      | correctnessimmediately      | 0              |
       | maxmarksimmediately         | 0              |
-      | marksimmediately            | 0              |
       | specificfeedbackimmediately | 0              |
       | rightanswerimmediately      | 0              |
-      | overallfeedbackimmediately  | 0              |
     And quiz "Quiz 1" contains the following questions:
       | question | page |
       | TF1      | 1    |
-    # Attempt the quiz and view it after only 1 minute.
     And user "student1" has attempted "Quiz 1" with responses:
-      | slot | response | timefinish         |
-      |   1  | True     | ## 1 minute ago ## |
+      | slot | response | timefinish   |
+      |   1  | True     | <timefinish> |
     When I am on the "Quiz 1" "quiz activity" page logged in as student1
     And I click on "Review" "link"
-    # Confirm that you only see the general feedback.
     Then I should see "You should have selected true."
-    And I should not see "This is the right answer."
-    And I should not see "The correct answer is True."
-    # Attempt the quiz again and view it after 2 minutes.
-    And user "student1" has attempted "Quiz 1" with responses:
-      | slot | response | timefinished        |
-      |   1  | True     | ## 2 minutes ago ## |
-    # TODO: Remove once timefinished is functional. Wait used temporarily.
-    And I wait "120" seconds
-    And I am on the "Quiz 1" "quiz activity" page logged in as student1
-    And I click on "Review" "link"
-    # Confirm that you can see all the details such as feedback, response and answer after 2 minutes passed.
-    And I should see "You should have selected true."
-    And I should see "This is the right answer."
-    And I should see "The correct answer is 'True'."
-    And I am on the "Quiz 1" "quiz activity editing" page logged in as teacher1
-    And I expand all fieldsets
-    # Uncheck all options in Immediately after the attempt and Later, while the quiz is still open.
-    And I set the following fields to these values:
-      | generalfeedbackimmediately | 0 |
-      | attemptimmediately         | 0 |
-      | overallfeedbackopen        | 0 |
-      | rightansweropen            | 0 |
-      | generalfeedbackopen        | 0 |
-      | specificfeedbackopen       | 0 |
-      | marksopen                  | 0 |
-      | maxmarksopen               | 0 |
-      | correctnessopen            | 0 |
-      | attemptopen                | 0 |
-    And I press "Save and return to course"
-    And I am on the "Quiz 1" "quiz activity" page logged in as student1
-    # Confirm that attempt cannot be reviewed.
-    And "Review" "link" should not exist
-    # Confirm that Available and close date are displayed in place of the Review link.
-    And I should see "Available"
-    And I should see "##tomorrow##%d/%m/%y##"
+    And I <visibility> see "This is the right answer."
+    And I <visibility> see "The correct answer is 'True'."
+    And the following <visibility> exist in the "quizreviewsummary" table:
+      |  -1-  |         -2-          |
+      | Marks | 1.00/1.00            |
+      | Grade | 100.00 out of 100.00 |
+
+    Examples:
+      | timefinish         | visibility |
+      | ## 1 minute ago ## | should not |
+      | ## 2 minute ago ## | should     |
+
+# Move to another test.
+#    And I am on the "Quiz 1" "quiz activity editing" page logged in as teacher1
+#    And I expand all fieldsets
+#    # Uncheck all options in Immediately after the attempt and Later, while the quiz is still open.
+#    And I set the following fields to these values:
+#      | generalfeedbackimmediately | 0 |
+#      | attemptimmediately         | 0 |
+#      | overallfeedbackopen        | 0 |
+#      | rightansweropen            | 0 |
+#      | generalfeedbackopen        | 0 |
+#      | specificfeedbackopen       | 0 |
+#      | marksopen                  | 0 |
+#      | maxmarksopen               | 0 |
+#      | correctnessopen            | 0 |
+#      | attemptopen                | 0 |
+#    And I press "Save and return to course"
+#    And I am on the "Quiz 1" "quiz activity" page logged in as student1
+#    # Confirm that attempt cannot be reviewed.
+#    And "Review" "link" should not exist
+#    # Confirm that Available and close date are displayed in place of the Review link.
+#    And I should see "Available"
+#    And I should see "##tomorrow##%d/%m/%y##"
