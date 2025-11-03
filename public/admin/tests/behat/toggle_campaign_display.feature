@@ -12,7 +12,7 @@ Feature: Toggle the campaign banner display
     When I navigate to "Notifications" in site administration
     Then "//iframe[@id='campaign-content']" "xpath_element" <display> exist
 
-  Examples:
-    | displaysetting | display    |
-    | true           | should     |
-    # | false          | should not |
+    Examples:
+      | displaysetting | display    |
+      | true           | should     |
+      | false          | should not |
